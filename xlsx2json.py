@@ -12,12 +12,30 @@ parser.add_argument('--first_data_row', type=int, default=2, help='first data ro
 
 args = parser.parse_args()
 
+if args.first_data_row < args.header_row:
+    args.first_data_row = args.header_row + 1
+
 wb = load_workbook(args.file)
 ws = wb.active
 
+def CellName(x):
+    N = ord('Z') - ord('A') + 1
+    s = ''
+    while True:
+        symb = chr(ord('A') + (x % N))
+        s = symb + s
+        x = x // N
+        if x == 0:
+            break
+        x = x - 1
+    return s
+
 header = []
 for j in range(1, ws.max_column + 1):
-    header.append(ws.cell(row=args.header_row, column=j).value)
+    column_name = ws.cell(row=args.header_row, column=j).value
+    if column_name is None:
+      column_name = '#' + CellName(j - 1)
+    header.append(str(column_name))
 
 data = []
 rows = ws.rows

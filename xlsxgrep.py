@@ -28,10 +28,10 @@ for i in range(0, ws.max_row):
         val = str(row[j].value)
         if val.find(args.substring) >= 0:
             if args.rows:
-                print(i)
+                print(i + 1)
             elif args.columns:
-                print(j)
+                print(j + 1)
             else:
-                print('{0},{1} {2}'.format(i, j, val))
+                print('{0},{1} {2}'.format(i + 1, j + 1, val))
             if args.first:
                 exit(0)
